@@ -22,8 +22,10 @@ num_logs = integer
 
 */ 
 
-    struct tm info_start;
-    struct tm info_end;
+    // initialize the struct filled with zeros
+    struct tm info_start = {0};
+    // initialize the struct filled with zeros
+    struct tm info_end = {0};
 
     const char delim[2] = "/";
     int cont = 0;
@@ -80,7 +82,7 @@ num_logs = integer
     // a cada iteração pega um valor aleatorio para o dispositivo escolhido
     for (int i = 0; i < num_logs; i++) {
 
-        writeEspLog(&info_end);
+        writeEspLog(&info_start);
 
     }
 

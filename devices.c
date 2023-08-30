@@ -3,7 +3,7 @@
 
 
 // gera um log do ESP32 na data especificada
-void writeEspLog (struct tm_start *tm_datetime) {
+void writeEspLog (struct tm *tm_datetime) {
 
     FILE* log;
     char filename[80];
@@ -14,35 +14,36 @@ void writeEspLog (struct tm_start *tm_datetime) {
         printf("Error: unable to make time using mktime\n");
 
     } else {
-        strftime(filename, sizeof(filename), "%c", &tm_datetime );
-        printf(filename);
+        // DATETIME: DD/MM/AAAA HH:MM:SS
+        strftime(filename, sizeof(filename), "%d/%m/%Y %X", tm_datetime );
+        printf("%s\n", filename);
     }
 
 };
 
 // gera um log do BROKER na data especificada
-void writeBrokerLog (struct tm_start *tm_datetime) {
+void writeBrokerLog (struct tm *tm_datetime) {
 
 
 
 };
 
 // gera um log do SENSOR_1 na data especificada
-void writeSenOneLog (struct tm_start *tm_datetime) {
+void writeSenOneLog (struct tm *tm_datetime) {
 
 
 
 };
 
 // gera um log do SENSOR_2 na data especificada
-void writeSenTwoLog (struct tm_start *tm_datetime) {
+void writeSenTwoLog (struct tm *tm_datetime) {
 
 
 
 };
 
 // gera um log do SENSOR_3 na data especificada
-void writeSenThreeLog (struct tm_start *tm_datetime) {
+void writeSenThreeLog (struct tm *tm_datetime) {
 
 
 
