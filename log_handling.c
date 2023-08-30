@@ -2,6 +2,7 @@
 #include <time.h>
 #include <stdlib.h>
 #include <string.h>
+#include "devices.h"
 
 /*   
 
@@ -76,10 +77,11 @@ num_logs = integer
     
     }
 
+    // a cada iteração pega um valor aleatorio para o dispositivo escolhido
     for (int i = 0; i < num_logs; i++) {
 
+        writeEspLog(&info_end);
 
-        
     }
 
 }
