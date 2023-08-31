@@ -8,7 +8,8 @@ void writeEspLog (struct tm *tm_datetime) {
     FILE* log;
     char filename[80];
 
-    int ret = mktime(tm_datetime);
+    // esta linha esta alterando outros parametros a struct tm_datetime e distorcendo a data final
+    int ret = mktime(tm_datetime); 
     
     if (ret == -1) {
         printf("Error: unable to make time using mktime\n");
