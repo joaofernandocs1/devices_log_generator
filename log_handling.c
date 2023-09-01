@@ -4,17 +4,18 @@
 #include <string.h>
 #include "devices.h"
 #include "string_handling.h"
+#include "log_handling.h"
 
 /*   
 
 LOG STRUCTURE:   
 
-"DEVICE_NAME DATETIME TENSAO[V] SINAL[dB] CONEXAO[STATUS] TEMP[°C] HUMID[%] GIRO[Vx, Vy, Vz] VIB[Hz]"   
+"DEVICE_NAME DATETIME TENSAO[V] SINAL[dB] TEMP[°C] GIRO[Vx, Vy, Vz] VIB[Hz] HUMID[%] CONEXAO[0-10]"   
 
 */
 
 // gera um arquivo de logs aleatorio
-void genFullLog(char* start_date, char* end_date, const int* device, const int num_logs) {
+void genFullLog(char* start_date, char* end_date, const int device, const int num_logs) {
 
 /*
 
@@ -37,6 +38,12 @@ num_logs = integer
     pParsedEndDatetime = parseInputDatetime(end_date, date_delim, hour_delim);
     writeEspLog(pParsedEndDatetime);
 
+    CharLog CharLog1;
+    void* pLog1;
+    pLog1 = &CharLog1;
+
+
+
 }
 
 // busca o primeiro log no arquivo especificado
@@ -58,7 +65,7 @@ char getLastLog(const char* filename) {
 }
 
 // busca um batch de logs entre as datas passadas para a funcao no arquivo
-char getBatchLog(const char* filename, const char* datetime) {
+char getBatchLog(const char* filename, char* start_date, char* end_date) {
 
 
 

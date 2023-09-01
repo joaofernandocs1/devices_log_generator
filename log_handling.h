@@ -9,7 +9,33 @@
     #define SENSOR_3    5
 #endif
 
-/*   LOG: DEVICE_NAME DATETIME TENSAO DB_SINAL CONEXAO TEMP HUMID   */
+typedef struct st_CharLog {
+    char device_name[10];
+    char datetime[20];
+
+} CharLog;
+
+typedef struct st_FloatLog {
+    float voltage;
+    float wifi_signal;
+    float temp;
+    float xGiro;
+    float yGiro;
+    float zGiro;
+    float freqVib;
+
+} FloatLog;
+
+typedef struct st_IntLog {
+    int conn;
+    int humid;
+
+
+} IntLog;
+
+/*
+"DEVICE_NAME DATETIME TENSAO[V] SINAL[dB] TEMP[°C] GIRO[Vx, Vy, Vz] VIB[Hz] CONEXAO[STATUS] HUMID[%]""
+*/
 
 // gera um arquivo de logs aleatorio
 void genFullLog(char* start_date, char* end_date, const int device, const int num_logs);
