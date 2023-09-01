@@ -1,3 +1,4 @@
+#include <time.h>
 
 // gera um log do ESP32 na data especificada
 void writeEspLog (struct tm *tm_datetime);
