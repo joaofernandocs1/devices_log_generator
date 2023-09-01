@@ -14,6 +14,5 @@ int main () {
     int num_logs = 3;
 
     genFullLog(start_date, end_date, ESP32, num_logs);
-    //writeEspLog(parseInputDatetime(start_date, date_delim, hour_delim));
 
 }

@@ -9,7 +9,9 @@
 
 LOG STRUCTURE:   
 
-"DEVICE_NAME   DATETIME   TENSAO   DB_SINAL   CONEXAO   TEMP   HUMID   GIRO   VIB"   */
+"DEVICE_NAME DATETIME TENSAO[V] SINAL[dB] CONEXAO[STATUS] TEMP[°C] HUMID[%] GIRO[Vx, Vy, Vz] VIB[Hz]"   
+
+*/
 
 // gera um arquivo de logs aleatorio
 void genFullLog(char* start_date, char* end_date, const int* device, const int num_logs) {
@@ -26,9 +28,14 @@ num_logs = integer
     const char date_delim[2] = "/";
     const char hour_delim[2] = ":";
 
-    struct tm *pParsedDatetime = {0};
-    pParsedDatetime = parseInputDatetime(start_date, date_delim, hour_delim);
-    writeEspLog(pParsedDatetime);
+    struct tm *pParsedStartDatetime = {0};
+    struct tm *pParsedEndDatetime = {0};
+
+    pParsedStartDatetime = parseInputDatetime(start_date, date_delim, hour_delim);
+    writeEspLog(pParsedStartDatetime);
+
+    pParsedEndDatetime = parseInputDatetime(end_date, date_delim, hour_delim);
+    writeEspLog(pParsedEndDatetime);
 
 }
 

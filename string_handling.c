@@ -24,7 +24,6 @@ void checkInside (const char* pStr1, size_t lenStr1, const char* pStr2, size_t l
         if (*(pStr1+i) == *(pStr2)) {
 
             printf("%c e igual a %c\n", *(pStr1+i), *(pStr2));
-
             i_aux = i; // armazena a posicao do caracter que for igual
             // passa para a posicao seguinte
             //i++;
@@ -32,12 +31,10 @@ void checkInside (const char* pStr1, size_t lenStr1, const char* pStr2, size_t l
             for (j = 0; j < lenStr2; j++) {
 
                 if (*(pStr1+i) == *(pStr2+j)) {
-
                     printf("%c e igual a %c\n", pStr1[i], pStr2[j]);
                     cont++;
 
                 } else {
-
                     break;
 
                 }
@@ -47,26 +44,20 @@ void checkInside (const char* pStr1, size_t lenStr1, const char* pStr2, size_t l
             }
 
             if (cont == lenStr2) {
-
                 printf("%c esta contida em %c\n", *pStr2, *pStr1);
 
             } else {
-
                 i = i_aux;
 
             }
-
             i++;
 
         } else if (*(pStr1+i) != *(pStr2)) {
-
             printf("%c e diferente de %c\n", *(pStr1+i), *(pStr2));
             i++;
 
         }
-
     }
-
 }
 
 struct tm* parseInputDate(char* date, const char* date_delim) {
@@ -84,11 +75,10 @@ struct tm* parseInputTime(char* time, const char* hour_delim) {
 struct tm* parseInputDatetime(char* datetime, const char* date_delim, const char* hour_delim) {
 
 /*
-
-start_date = "DD/MM/AAAA hh:mm:ss"
-date_delim = "/"
-hour_delim = ":"
-
+    start_date = "DD/MM/AAAA hh:mm:ss"
+    end_date = "DD/MM/AAAA hh:mm:ss"
+    date_delim = "/"
+    hour_delim = ":"
 */ 
 
     // initialize the struct filled with zeros
@@ -105,20 +95,20 @@ hour_delim = ":"
     // extrai dia, mes e ano da data de inicio
     token_start_date = strtok(datetime, date_delim);
     parsedDatetime.tm_mday = atoi(token_start_date);
-    printf("dia de inicio: %d\n", parsedDatetime.tm_mday);
+    //printf("dia de inicio: %d\n", parsedDatetime.tm_mday);
 
     while (token_start_date != NULL) {
         if (cont == 0) {
             token_start_date = strtok(NULL, date_delim);
             parsedDatetime.tm_mon = atoi(token_start_date) - 1;
-            printf("mes de inicio: %d\n", parsedDatetime.tm_mon);
+            //printf("mes de inicio: %d\n", parsedDatetime.tm_mon);
             cont++;
             continue;
 
         } else if (cont == 1) {
             token_start_date = strtok(NULL, date_delim);
             parsedDatetime.tm_year = atoi(token_start_date) - 1900;
-            printf("ano de inicio: %d\n", parsedDatetime.tm_year);
+            //printf("ano de inicio: %d\n", parsedDatetime.tm_year);
             //token_start_date = NULL;
             cont++;
             continue;
@@ -127,21 +117,21 @@ hour_delim = ":"
             token_start_date += 5; // pula cinco caracteres na string (pular o ano e mais um espaco)
             token_start_hour = strtok(token_start_date, hour_delim);
             parsedDatetime.tm_hour = atoi(token_start_hour);
-            printf("hora de inicio: %d\n", parsedDatetime.tm_hour);
+            //printf("hora de inicio: %d\n", parsedDatetime.tm_hour);
             cont++;
             continue;
 
         } else if (cont == 3) {
             token_start_hour = strtok(NULL, hour_delim);
             parsedDatetime.tm_min = atoi(token_start_hour);
-            printf("minuto de inicio: %d\n", parsedDatetime.tm_min);
+            //printf("minuto de inicio: %d\n", parsedDatetime.tm_min);
             cont++;
             continue;
 
         } else if (cont == 4) {
             token_start_hour = strtok(NULL, hour_delim);
             parsedDatetime.tm_sec = atoi(token_start_hour);
-            printf("segundo de inicio: %d\n", parsedDatetime.tm_sec);
+            //printf("segundo de inicio: %d\n", parsedDatetime.tm_sec);
             token_start_hour = NULL;
             cont++;
             break;
@@ -150,6 +140,9 @@ hour_delim = ":"
  
     }
     cont = 0;
+
+    // seta DST para desconhecido
+    //pParsedDatetime->tm_isdst = -1;
 
     return pParsedDatetime;
 }
