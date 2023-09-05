@@ -42,6 +42,14 @@ int main () {
 
     } Teste;
 
+    typedef struct st_Teste_ints {
+        double num1;
+        double num2;
+        double num3;
+        double num4;
+
+    } Teste_int;
+
     Teste t1;
     Teste *pTeste;
     pTeste = &t1;
@@ -54,17 +62,31 @@ int main () {
     scanf("%s", t1.nome);
 
     printf("idade com ponteiro especifico: %d\n", pTeste->idade = 28);
-    printf("idade (direto da struct): %d\n", t1.idade);
-    printf("numGen e: %d\n", *((int*)pGen)); 
+    printf("idade (acesso direto a struct): %d\n", t1.idade);
+    printf("numGen e (sem casting completo): %d\n", *((int*)pGen)); 
     // typecasting incompleto, pois esta sem os qualificadores. Imprimira um endereco ao inves do numero numGen
-    printf("numGen e: %d\n", *((unsigned short int*)pGen)); 
+    printf("numGen e (com casting completo): %d\n", *((unsigned short int*)pGen)); 
     // pGen sera entendido como um endereco para um inteiro depois de (int*), entao sera necessario colocar *() no entorno para indicar o conteudo
 
     pGen = &t1;
-    printf("idade com ponteiro generico: %s\n", ((Teste*)pGen)->nome);
+    printf("nome (com casting usando struct) ponteiro generico: %s\n", ((Teste*)pGen)->nome);
 
+
+    Teste_int Tint_1;
+    Teste_int *pTeste_int;
+    pTeste_int = &Tint_1;
+
+    size_t size_T_int = sizeof(Tint_1)/sizeof(pTeste_int->num1);
+
+    double* pInt = NULL;
     int cont = 0;
 
-    
+    for (pInt = &(pTeste_int->num1); pInt <= &(pTeste_int->num4); pInt++) {
+
+        *pInt = cont;
+        printf("Tint_1 num%d: %lf\n", cont+1, *(pInt));
+        cont++;
+
+    }
 
 }
