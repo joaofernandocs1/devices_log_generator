@@ -1,5 +1,14 @@
 #include <time.h>
 
+
+float getVoltage();
+float getWifiSignal();
+float getTemp();
+void getGiro(float* giro);
+float getFreqVib();
+int getConn();
+int getHumid();
+
 // gera um log do ESP32 na data especificada
 void writeEspLog (struct tm *tm_datetime);
 

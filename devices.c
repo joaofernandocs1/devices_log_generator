@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <time.h>
 #include <string.h>
+#include "devices.h"
 
 
 // gera um log do ESP32 na data especificada
@@ -14,7 +15,7 @@ void writeEspLog (struct tm *tm_datetime) {
     FILE* log;
     char filename[30];
     char buffer[100];
-    char val_buffer[20];
+    //char val_buffer[20];
     char device_name[] = "ESP32";
 
     // esta linha esta alterando outros parametros a struct tm_datetime e distorcendo a data final
@@ -30,45 +31,20 @@ void writeEspLog (struct tm *tm_datetime) {
         printf("%s\n", filename);
     }
 
-    // DEVICE_NAME
-    memcpy(buffer, device_name, strlen(device_name)+1);
-    
-    // DATETIME
-    strcat(buffer, filename);
-
-    // TENSAO
-    sprintf(val_buffer, "%dV ", getVoltage());
-    strcat(buffer, val_buffer);
-    
-    // SINAL
-    sprintf(val_buffer, "%ddB ", getWifiSignal());
-    strcat(buffer, val_buffer);
-    
-    // TEMP
-    sprintf(val_buffer, "%.2f°C ", getTemp());
-    strcat(buffer, val_buffer);
-    
-    // GIRO
-    sprintf(val_buffer, "[%.2f, %.2f, %.2f] m/s ", *(getGiro()), *(getGiro()+1), *(getGiro()+2));
-    strcat(buffer, val_buffer);
-
-    // VIB
-    sprintf(val_buffer, "%.2f Hz", getFreqVib());
-    strcat(buffer, val_buffer);
-
-    // CONEXAO
-    sprintf(val_buffer, "%d ", getConn());
-    strcat(buffer, val_buffer);
-    
-    // HUMID
-    sprintf(val_buffer, "%dp ", getHumid());
-    strcat(buffer, val_buffer);
+    float voltage = getVoltage();
+    float signal = getWifiSignal();
+    float temp = getTemp();
+    float giro[3];
+    float freq = getFreqVib();
+    int conn = getConn();
+    int humid = getHumid();
 
     strcat(filename, ".txt");
 
     log = fopen(filename, "a");
 
-    fprintf(log, "%s", buffer);
+    // erro na linha abaixo
+    fprintf(log, "%s %.2fV %.2fdB %.2f°C [%.2f, %.2f, %.2f] m/s %.2f Hz %d W %dp ", filename, voltage, signal, temp, *(giro), *(giro+1), *(giro+2), freq, conn, humid);
 
     fclose(log);
 
@@ -76,19 +52,51 @@ void writeEspLog (struct tm *tm_datetime) {
 
 float getVoltage () {
 
-    float voltage = rand()%5;
+    float a = 5.0;
+
+    float voltage = (float)rand()/(float)(RAND_MAX)*a;
     return voltage;
 }
 
 float getWifiSignal () {
 
-    float wifi_signal = rand()%100;
+    float a = 100.0;
+
+    float wifi_signal = (float)rand()/(float)(RAND_MAX)*a;
     return wifi_signal;
+}
+
+float getTemp () {
+
+    float a = 50.0;
+
+    float Temp = (float)rand()/(float)(RAND_MAX)*a;
+    return Temp;
+}
+
+void getGiro (float* giro) {
+
+    float a = 50.0;
+
+    *(giro) = (float)rand()/(float)(RAND_MAX)*a;
+    *(giro+1) = (float)rand()/(float)(RAND_MAX)*a;
+    *(giro+2) = (float)rand()/(float)(RAND_MAX)*a;
+
+}
+
+float getFreqVib () {
+
+    float a = 5000.0;
+
+    float freqVib = (float)rand()/(float)(RAND_MAX)*a;
+    return freqVib;
 }
 
 int getConn () {
 
-    int conn = rand()%50;
+    float a = 50.0;
+
+    int conn = (float)rand()/(float)(RAND_MAX)*a;
 
     /*if (conn <= 20) {
         conn == "WEAK";
@@ -103,34 +111,12 @@ int getConn () {
     return conn;
 }
 
-float getTemp () {
-
-    float Temp = rand()%50;
-    return Temp;
-}
-
 int getHumid () {
 
     int Humid = rand()%100;
     return Humid;
 }
 
-float* getGiro () {
-
-    float Giro[3];
-
-    Giro[0] = rand()%50;
-    Giro[1] = rand()%50;
-    Giro[2] = rand()%50;
-
-    return Giro;
-}
-
-float getFreqVib () {
-
-    float freqVib = rand()%5000;
-    return freqVib;
-}
 
 // gera um log do BROKER na data especificada
 void writeBrokerLog (struct tm* tm_datetime) {
