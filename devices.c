@@ -13,9 +13,8 @@ void writeEspLog (struct tm *tm_datetime) {
 */
 
     FILE* log;
-    char filename[30];
+    char filename[30], datetime[30], file_ext[5] = ".txt";
     char buffer[100];
-    //char val_buffer[20];
     char device_name[] = "ESP32";
 
     // esta linha esta alterando outros parametros a struct tm_datetime e distorcendo a data final
@@ -25,10 +24,9 @@ void writeEspLog (struct tm *tm_datetime) {
         printf("Error: unable to make time using mktime\n");
 
     } else {
-        // DATETIME: DD/MM/AAAA HH:MM:SS
         // formatacao errada dos segundos esta nessa linha
-        strftime(filename, sizeof(filename), "%d%m%Y_%H-%M-%S", tm_datetime);
-        printf("%s\n", filename);
+        strftime(datetime, sizeof(datetime), "%d%m%Y_%H-%M-%S", tm_datetime);
+        printf("%s\n", datetime);
     }
 
     float voltage = getVoltage();
@@ -39,12 +37,13 @@ void writeEspLog (struct tm *tm_datetime) {
     int conn = getConn();
     int humid = getHumid();
 
-    strcat(filename, ".txt");
+    memcpy(filename, datetime, strlen(datetime)+1);
+    strcat(filename, file_ext);
 
     log = fopen(filename, "a");
 
     // erro na linha abaixo
-    fprintf(log, "%s %.2fV %.2fdB %.2f°C [%.2f, %.2f, %.2f] m/s %.2f Hz %d W %dp ", filename, voltage, signal, temp, *(giro), *(giro+1), *(giro+2), freq, conn, humid);
+    fprintf(log, "%s %.2fV %.2fdB %.2f°C [%.2f, %.2f, %.2f] m/s %.2f Hz %d W %dp ", datetime, voltage, signal, temp, *(giro), *(giro+1), *(giro+2), freq, conn, humid);
 
     fclose(log);
 

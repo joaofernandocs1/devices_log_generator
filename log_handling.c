@@ -43,7 +43,6 @@ num_logs = integer
     pLog1 = &CharLog1;
 
 
-
 }
 
 // busca o primeiro log no arquivo especificado
