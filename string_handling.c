@@ -60,79 +60,67 @@ void checkInside (const char* pStr1, size_t lenStr1, const char* pStr2, size_t l
     }
 }
 
-struct tm* parseInputDate(char* date, const char* date_delim) {
+struct tm* parseInputDate(char* date) {
 
     
 
 }
 
-struct tm* parseInputTime(char* time, const char* hour_delim) {
+struct tm* parseInputTime(char* time) {
 
     
     
 }
 
-struct tm* parseInputDatetime(char* datetime, const char* date_delim, const char* hour_delim) {
-
-/*
-    start_date = "DD/MM/AAAA hh:mm:ss"
-    end_date = "DD/MM/AAAA hh:mm:ss"
-    date_delim = "/"
-    hour_delim = ":"
-*/ 
-
-    // initialize the struct filled with zeros
-    struct tm parsedDatetime = {0};
-    struct tm* pParsedDatetime;
-    pParsedDatetime = &parsedDatetime;
+void parseInputDatetime(char* datetime, struct tm* pToParseDatetime) {
     
     char foo[3]; // random variable to init the pointers
     
-    char* token_start_date = foo; // initialize the pointer with a valid address    
-    char* token_start_hour = foo;
+    char* token_date = foo; // initialize the pointer with a valid address    
+    char* token_hour = foo;
     int cont = 0;
 
     // extrai dia, mes e ano da data de inicio
-    token_start_date = strtok(datetime, date_delim);
-    parsedDatetime.tm_mday = atoi(token_start_date);
-    //printf("dia de inicio: %d\n", parsedDatetime.tm_mday);
+    token_date = strtok(datetime, DATE_DELIM);
+    pToParseDatetime->tm_mday = atoi(token_date);
+    //printf("dia de inicio: %d\n", pToParseDatetime->tm_mday);
 
-    while (token_start_date != NULL) {
+    while (token_date != NULL) {
         if (cont == 0) {
-            token_start_date = strtok(NULL, date_delim);
-            parsedDatetime.tm_mon = atoi(token_start_date) - 1;
-            //printf("mes de inicio: %d\n", parsedDatetime.tm_mon);
+            token_date = strtok(NULL, DATE_DELIM);
+            pToParseDatetime->tm_mon = atoi(token_date) - 1;
+            //printf("mes de inicio: %d\n", pToParseDatetime->tm_mon);
             cont++;
             continue;
 
         } else if (cont == 1) {
-            token_start_date = strtok(NULL, date_delim);
-            parsedDatetime.tm_year = atoi(token_start_date) - 1900;
-            //printf("ano de inicio: %d\n", parsedDatetime.tm_year);
-            //token_start_date = NULL;
+            token_date = strtok(NULL, DATE_DELIM);
+            pToParseDatetime->tm_year = atoi(token_date) - 1900;
+            //printf("ano de inicio: %d\n", pToParseDatetime->tm_year);
+            //token_date = NULL;
             cont++;
             continue;
 
         } else if (cont == 2) {
-            token_start_date += 5; // pula cinco caracteres na string (pular o ano e mais um espaco)
-            token_start_hour = strtok(token_start_date, hour_delim);
-            parsedDatetime.tm_hour = atoi(token_start_hour);
-            //printf("hora de inicio: %d\n", parsedDatetime.tm_hour);
+            token_date += 5; // pula cinco caracteres na string (pular o ano e mais um espaco)
+            token_hour = strtok(token_date, HOUR_DELIM);
+            pToParseDatetime->tm_hour = atoi(token_hour);
+            //printf("hora de inicio: %d\n", pToParseDatetime->m_hour);
             cont++;
             continue;
 
         } else if (cont == 3) {
-            token_start_hour = strtok(NULL, hour_delim);
-            parsedDatetime.tm_min = atoi(token_start_hour);
-            //printf("minuto de inicio: %d\n", parsedDatetime.tm_min);
+            token_hour = strtok(NULL, HOUR_DELIM);
+            pToParseDatetime->tm_min = atoi(token_hour);
+            //printf("minuto de inicio: %d\n", pToParseDatetime->tm_min);
             cont++;
             continue;
 
         } else if (cont == 4) {
-            token_start_hour = strtok(NULL, hour_delim);
-            parsedDatetime.tm_sec = atoi(token_start_hour);
-            //printf("segundo de inicio: %d\n", parsedDatetime.tm_sec);
-            token_start_hour = NULL;
+            token_hour = strtok(NULL, HOUR_DELIM);
+            pToParseDatetime->tm_sec = atoi(token_hour);
+            //printf("segundo de inicio: %d\n", pToParseDatetime->tm_sec);
+            token_hour = NULL;
             cont++;
             break;
 
@@ -141,8 +129,4 @@ struct tm* parseInputDatetime(char* datetime, const char* date_delim, const char
     }
     cont = 0;
 
-    // seta DST para desconhecido
-    //pParsedDatetime->tm_isdst = -1;
-
-    return pParsedDatetime;
 }

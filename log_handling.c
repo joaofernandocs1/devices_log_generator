@@ -15,7 +15,7 @@ LOG STRUCTURE:
 */
 
 // gera um arquivo de logs aleatorio
-void genFullLog(char* start_date, char* end_date, const int device, const int num_logs) {
+void genFullLog(char* start_date, char* end_date, const char* device, const int num_logs) {
 
 /*
 
@@ -25,23 +25,43 @@ device = ESP32 || BROKER || SENSOR_1 || SENSOR_2 || SENSOR_3
 num_logs = integer
 
 */ 
+    char filename[30], datetime[30], file_ext[5] = ".txt";
 
-    const char date_delim[2] = "/";
-    const char hour_delim[2] = ":";
+    struct tm parsedStartDatetime = {0};
+    struct tm parsedEndDatetime = {0};
+    struct tm *pParsedStartDatetime = &parsedStartDatetime; 
+    struct tm *pParsedEndDatetime = &parsedEndDatetime; 
 
-    struct tm *pParsedStartDatetime = {0};
-    struct tm *pParsedEndDatetime = {0};
+    parseInputDatetime(start_date, pParsedStartDatetime);
+    parseInputDatetime(end_date, pParsedEndDatetime);
 
-    pParsedStartDatetime = parseInputDatetime(start_date, date_delim, hour_delim);
-    writeEspLog(pParsedStartDatetime);
+    int ret_s = mktime(pParsedStartDatetime);
+    int ret_e = mktime(pParsedEndDatetime);
 
-    pParsedEndDatetime = parseInputDatetime(end_date, date_delim, hour_delim);
-    writeEspLog(pParsedEndDatetime);
+    if (ret_s == -1 || ret_e == -1) {
+        printf("Erro ao converter uma datas structs em time_t\n");
+    } else {
+        // nome do arquivo de log leva a data de INICIO dos logs
+        strftime(datetime, sizeof(datetime), "%d%m%Y_%H-%M-%S", pParsedStartDatetime);
+        printf("%s\n", datetime);
+    }
 
-    CharLog CharLog1;
-    void* pLog1;
-    pLog1 = &CharLog1;
+    memcpy(filename, datetime, strlen(datetime)+1);
+    strcat(filename, file_ext);
 
+    FILE* log;
+    log = fopen(filename, "a");
+
+    double logs_interval = difftime(mktime(pParsedEndDatetime), mktime(pParsedStartDatetime));
+    logs_interval /= num_logs;
+
+    for (int i = 0; i < num_logs; i++) {
+        pParsedStartDatetime += (int)logs_interval;
+        writeEspLog(datetime, log);
+
+    }
+
+    fclose(log);
 
 }
 
