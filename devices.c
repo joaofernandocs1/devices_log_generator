@@ -21,7 +21,8 @@ void writeEspLog (const char* datetime, FILE* logFile) {
     int humid = getHumid();
 
     // erro na linha abaixo
-    fprintf(logFile, "%s %s %.2fV %.2fdB %.2f°C [%.2f, %.2f, %.2f] m/s %.2f Hz %d W %dp ", ESP32_N, datetime, voltage, signal, temp, *(giro), *(giro+1), *(giro+2), freq, conn, humid);
+    fprintf(logFile, "%s %s %.2fV %.2fdB %.2f°C [%.2f, %.2f, %.2f] m/s %.2f Hz %d W %dp\n", ESP32_N, datetime, voltage, signal, temp, *(giro), *(giro+1), *(giro+2), freq, conn, humid);
+    //printf("%s %s %.2fV %.2fdB %.2f°C [%.2f, %.2f, %.2f] m/s %.2f Hz %d W %dp\n", ESP32_N, datetime, voltage, signal, temp, *(giro), *(giro+1), *(giro+2), freq, conn, humid);
 
 };
 
