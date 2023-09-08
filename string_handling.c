@@ -29,7 +29,7 @@ void checkInside (const char* pStr1, size_t lenStr1, const char* pStr2, size_t l
             //i++;
             // itera na string secundaria para testar se todos os caracteres subsequentes serao iguais ate o fim
             for (j = 0; j < lenStr2; j++) {
-
+                
                 if (*(pStr1+i) == *(pStr2+j)) {
                     printf("%c e igual a %c\n", pStr1[i], pStr2[j]);
                     cont++;
@@ -38,7 +38,6 @@ void checkInside (const char* pStr1, size_t lenStr1, const char* pStr2, size_t l
                     break;
 
                 }
-
                 i++;
                 
             }

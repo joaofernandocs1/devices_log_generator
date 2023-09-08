@@ -17,14 +17,6 @@ LOG STRUCTURE:
 // gera um arquivo de logs aleatorio
 void genFullLog(char* start_date, char* end_date, const char* device, const int num_logs) {
 
-/*
-
-start_date = "DD/MM/AAAA hh:mm:ss"
-end_date = "DD/MM/AAAA hh:mm:ss"
-device = ESP32 || BROKER || SENSOR_1 || SENSOR_2 || SENSOR_3
-num_logs = integer
-
-*/ 
     char filename[30], datetime[30], file_ext[5] = ".txt";
 
     struct tm parsedStartDatetime = {0};
@@ -43,7 +35,7 @@ num_logs = integer
     } else {
         // nome do arquivo de log leva a data de INICIO dos logs
         strftime(datetime, sizeof(datetime), "%d%m%Y_%H-%M-%S", pParsedStartDatetime);
-        printf("%s\n", datetime);
+        //printf("%s\n", datetime);
     }
 
     memcpy(filename, datetime, strlen(datetime)+1);
@@ -56,7 +48,9 @@ num_logs = integer
     logs_interval /= num_logs;
 
     for (int i = 0; i < num_logs; i++) {
-        pParsedStartDatetime += (int)logs_interval;
+        pParsedStartDatetime->tm_sec += (int)logs_interval;
+        mktime(pParsedStartDatetime);
+        strftime(datetime, sizeof(datetime), "%d%m%Y_%H-%M-%S", pParsedStartDatetime);
         writeEspLog(datetime, log);
 
     }
