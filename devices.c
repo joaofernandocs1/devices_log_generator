@@ -26,7 +26,7 @@ void writeEspLog (const char* datetime, FILE* logFile) {
 
 };
 
-float getVoltage () {
+float getVoltage (void) {
 
     float a = 5.0;
 
@@ -34,7 +34,7 @@ float getVoltage () {
     return voltage;
 }
 
-float getWifiSignal () {
+float getWifiSignal (void) {
 
     float a = 100.0;
 
@@ -42,7 +42,7 @@ float getWifiSignal () {
     return wifi_signal;
 }
 
-float getTemp () {
+float getTemp (void) {
 
     float a = 50.0;
 
@@ -60,7 +60,7 @@ void getGiro (float* giro) {
 
 }
 
-float getFreqVib () {
+float getFreqVib (void) {
 
     float a = 5000.0;
 
@@ -68,7 +68,7 @@ float getFreqVib () {
     return freqVib;
 }
 
-int getConn () {
+int getConn (void) {
 
     float a = 50.0;
 
@@ -87,7 +87,7 @@ int getConn () {
     return conn;
 }
 
-int getHumid () {
+int getHumid (void) {
 
     int Humid = rand()%100;
     return Humid;

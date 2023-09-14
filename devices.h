@@ -16,13 +16,13 @@
     #define SENSOR_3_IND    5
 #endif
 
-float getVoltage();
-float getWifiSignal();
-float getTemp();
+float getVoltage(void);
+float getWifiSignal(void);
+float getTemp(void);
 void getGiro(float* giro);
-float getFreqVib();
-int getConn();
-int getHumid();
+float getFreqVib(void);
+int getConn(void);
+int getHumid(void);
 
 // gera um log do ESP32 na data especificada
 void writeEspLog (const char* datetime, FILE* logFile);
